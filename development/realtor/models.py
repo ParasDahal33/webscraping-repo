@@ -19,8 +19,10 @@ class Realtors(models.Model):
     email = models.EmailField(verbose_name='EMAIL')
     is_mvp = models.BooleanField(default=False, verbose_name='MVP')
     hire_date = models.DateTimeField(default=datetime.now, blank=True)
-    created_at = models.DateTimeField(verbose_name='Created At', editable=False)
-    updated_at = models.DateTimeField(verbose_name='Updated At', editable=False)
+    created_at = models.DateTimeField(
+        verbose_name='Created At', editable=False)
+    updated_at = models.DateTimeField(
+        verbose_name='Updated At', editable=False)
 
     class Meta:
         verbose_name = 'Realtor'

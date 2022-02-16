@@ -23,7 +23,7 @@ class ListingsAdmin(admin.ModelAdmin):
     ]
 
     def formatted_price(self, obj):
-        return '{0:,.0f} EUR'.format(obj.price)
+        return '{0:,.0f} Rs'.format(obj.price)
 
 
 # Register

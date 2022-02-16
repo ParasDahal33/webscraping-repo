@@ -3,6 +3,7 @@ from listing.models import Listings
 from realtor.models import Realtors
 from listing.choices import bedroom_choices, price_choices, state_choices
 
+
 def index(request):
     title = 'Real Estate | Welcome'
     template = 'main/index.html'
