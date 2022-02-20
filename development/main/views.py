@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from listing.models import Listings
+from appartment_listing.models import Listings
 from realtor.models import Realtors
-from listing.choices import bedroom_choices, price_choices, state_choices
+from appartment_listing.choices import bedroom_choices, price_choices, state_choices, property_choices, purchase_choices
 
 
 def index(request):
@@ -18,6 +18,9 @@ def index(request):
         'state_choices': state_choices,
         'bedroom_choices': bedroom_choices,
         'price_choices': price_choices,
+        'property_choices': property_choices,
+        'purchase_choices': purchase_choices,
+
     }
     return render(request, template, context)
 

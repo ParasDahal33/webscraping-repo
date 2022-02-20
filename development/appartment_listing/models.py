@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from .choices import purchase_choices, property_choices
 from realtor.models import Realtors
 
 # Create your models here.
@@ -15,22 +16,26 @@ class Listings(models.Model):
         max_length=100,
         verbose_name='Title',
     )
-    street = models.CharField(max_length=100, verbose_name='Street')
-    city = models.CharField(max_length=100, verbose_name='City')
     state = models.CharField(max_length=100, verbose_name='State')
-    zipcode = models.CharField(max_length=100, verbose_name='ZipCode')
+    district = models.CharField(max_length=100, verbose_name='District')
+    city = models.CharField(max_length=100, verbose_name='City')
     description = models.TextField(blank=True, verbose_name='Description')
     price = models.DecimalField(
         verbose_name='Price', max_digits=15, decimal_places=5)
-    bedroom = models.IntegerField(verbose_name='Bedroom')
+    purchaseType = models.CharField(unique=True,
+                                    default="Buy", max_length=8, verbose_name='PurchaseType')
+    propertyType = models.CharField(unique=True,
+                                    default="House", max_length=8, verbose_name='PropertyType')
+    bedroom = models.IntegerField(
+        verbose_name='Bedroom', default=None, blank=True, null=True)
     bathroom = models.DecimalField(
-        verbose_name='Bathroom', max_digits=2, decimal_places=1)
-    garage = models.IntegerField(default=0, verbose_name='Garage')
-    sqft = models.IntegerField(verbose_name='Sqft')
-    lot_size = models.DecimalField(
-        max_digits=5, decimal_places=1, verbose_name='Lot Size')
+        verbose_name='Bathroom', max_digits=8, decimal_places=5, default=None, blank=True, null=True)
+    garage = models.IntegerField(
+        verbose_name='Garage', default=None, blank=True, null=True)
+    sqft = models.IntegerField(
+        verbose_name='Sqft', default=None, blank=True, null=True)
     photo_main = models.ImageField(
-        upload_to='photos/%Y/%m/%d/', verbose_name='Main Photo')
+        upload_to='photos/%Y/%m/%d/', verbose_name='Main Photo', default=None, blank=True, null=True)
     is_published = models.BooleanField(default=True, verbose_name='Published')
     list_date = models.DateTimeField(
         default=datetime.now, blank=True, verbose_name='List Date')

@@ -12,7 +12,7 @@
         <h1 class="display-4">{{details.listing_title}}</h1>
         <p class="lead">
           <i class="fas fa-map-marker"></i> {{details.city}} {{details.state}},
-          {{details.zipcode}}
+          {{details.district}}
         </p>
       </div>
     </div>
@@ -47,7 +47,7 @@
         <!-- Home Main Image -->
         <img
           src="{{details.photo_main.url}}"
-          alt=""
+          alt="No Image Available"
           class="img-main img-fluid mb-3"
         />
         <!-- Thumbnails -->
@@ -69,6 +69,14 @@
                 <span class="float-right">Rs.{{details.price | intcomma}}</span>
               </li>
               <li class="list-group-item text-secondary">
+                <i class="fa-solid fa-store"></i> Purchase Type:
+                <span class="float-right">{{details.purchaseType}}</span>
+              </li>
+              <li class="list-group-item text-secondary">
+                <i class="fa-solid fa-landmark"></i> Property Type:
+                <span class="float-right">{{details.propertyType}}</span>
+              </li>
+              <li class="list-group-item text-secondary">
                 <i class="fas fa-bed"></i> Bedrooms:
                 <span class="float-right">{{details.bedroom}}</span>
               </li>
@@ -87,10 +95,6 @@
               <li class="list-group-item text-secondary">
                 <i class="fas fa-th-large"></i> Square Feet:
                 <span class="float-right">{{details.sqft}}</span>
-              </li>
-              <li class="list-group-item text-secondary">
-                <i class="fas fa-square"></i> Lot Size:
-                <span class="float-right">{{details.lot_size}} Acres </span>
               </li>
               <li class="list-group-item text-secondary">
                 <i class="fas fa-calendar"></i> Listing Date:

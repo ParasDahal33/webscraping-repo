@@ -11,6 +11,17 @@ bedroom_choices = {
     '10': 10
 }
 
+purchase_choices = {
+    'BY': 'Buy',
+    'RT': 'Rent'
+}
+
+property_choices = {
+    'HE': 'House',
+    'AT': 'Appartment',
+    'LD': 'Land'
+}
+
 price_choices = {
     '100000': 'Rs. 100,000',
     '200000': 'Rs. 200,000',
@@ -23,6 +34,7 @@ price_choices = {
     '900000': 'Rs. 900,000',
     '1000000': 'Rs. 1M+',
 }
+
 
 state_choices = {
     'BG': 'Bagmati Province',

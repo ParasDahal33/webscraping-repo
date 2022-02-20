@@ -21,7 +21,7 @@
                   type="text"
                   name="keywords"
                   class="form-control"
-                  placeholder="Keyword (Pool, Garage, etc)"
+                  placeholder="Keyword (Land, Appartment,House etc)"
                 />
               </div>
 
@@ -33,6 +33,27 @@
                   class="form-control"
                   placeholder="City"
                 />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Purchase Type</label>
+                <select name="purchaseType" class="form-control">
+                  <option selected="true" disabled="disabled">Purchase Type (All)</option>
+                  {% for key, value in purchase_choices.items %}
+                  <option value="{{ key }}">{{ value }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="sr-only">Price</label>
+                <select name="price" class="form-control">
+                  <option selected="true" disabled="disabled">
+                    Max Price (Any)
+                  </option>
+                  {% for key, value in price_choices.items %}
+                  <option value="{{ key }}">{{ value }}</option>
+                  {% endfor %}
+                </select>
               </div>
 
               <div class="col-md-4 mb-3">
@@ -46,31 +67,19 @@
                   {% endfor %}
                 </select>
               </div>
-            </div>
-            <!-- Form Row 2 -->
-            <div class="form-row">
-              <div class="col-md-6 mb-3">
-                <label class="sr-only">Bedrooms</label>
-                <select name="bedrooms" class="form-control">
-                  <option selected="true" disabled="disabled">
-                    Bedrooms (All)
-                  </option>
-                  {% for key, value in bedroom_choices.items %}
+            
+
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Property Type</label>
+                <select name="propertyType" class="form-control">
+                  <option selected="true" disabled="disabled">Property Type (All)</option>
+                  {% for key, value in property_choices.items %}
                   <option value="{{ key }}">{{ value }}</option>
                   {% endfor %}
                 </select>
-              </div>
-              <div class="col-md-6 mb-3">
-                <select name="price" class="form-control" id="type">
-                  <option selected="true" disabled="disabled">
-                    Max Price (Any)
-                  </option>
-                  {% for key, value in price_choices.items %}
-                  <option value="{{ key }}">{{ value }}</option>
-                  {% endfor %}
-                </select>
-              </div>
+              </div
             </div>
+
             <button class="btn btn-secondary btn-block mt-4" type="submit">
               Search
             </button>

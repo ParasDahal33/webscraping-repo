@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Listings, Photos
-from .choices import bedroom_choices, price_choices, state_choices
+from .choices import bedroom_choices, price_choices, state_choices, purchase_choices, property_choices
 from contact.forms import InquiryModelForm
 from django.contrib import messages
 # Create your views here.
@@ -77,12 +77,19 @@ def search(request):
         if state:
             queryset_list = queryset_list.filter(
                 state__iexact=state)
-    # Bedrooms
-    if 'bedrooms' in request.GET:
-        bedroom = request.GET['bedrooms']
-        if bedroom:
+    # PurchaseType
+    if 'purchaseType' in request.GET:
+        purchaseType = request.GET['purchaseType']
+        if purchaseType:
             queryset_list = queryset_list.filter(
-                bedroom__lte=bedroom)
+                purchase__list=purchaseType)
+
+     # PropertyType
+    if 'propertyType' in request.GET:
+        propertyType = request.GET['propertyType']
+        if propertyType:
+            queryset_list = queryset_list.filter(
+                property__list=propertyType)
     # Price
     if 'price' in request.GET:
         price = request.GET['price']
@@ -92,7 +99,8 @@ def search(request):
     context = {'title': title,
                'listings': queryset_list,
                'state_choices': state_choices,
-               'bedroom_choices': bedroom_choices,
+               'purchase_choices': purchase_choices,
+               'property_choices': property_choices,
                'price_choices': price_choices,
                }
     return render(request, template, context)
