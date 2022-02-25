@@ -3,12 +3,7 @@ import requests
 from csv import writer
 
 headers = {
-    'Accept': '*/*',
-    'Accept-Encoding': 'gzip, deflate',
-    'Host': 'httpbin.org',
-    'User-Agent': 'python-requests/2.23.0',
-    'X-Amzn-Trace-Id': 'Root=1-5ee7a417-97501ac8e10eb62866e09b9c'
-}
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
 r = requests.get(
     'https://www.realestateinnepal.com/search/?location=', headers=headers)
 

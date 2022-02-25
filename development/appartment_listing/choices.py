@@ -12,14 +12,14 @@ bedroom_choices = {
 }
 
 purchase_choices = {
-    'BY': 'Buy',
-    'RT': 'Rent'
+    'Buy': 'Buy',
+    'Rent': 'Rent'
 }
 
 property_choices = {
-    'HE': 'House',
-    'AT': 'Appartment',
-    'LD': 'Land'
+    'House': 'House',
+    'Appartment': 'Appartment',
+    'Land': 'Land'
 }
 
 price_choices = {
@@ -37,11 +37,11 @@ price_choices = {
 
 
 state_choices = {
-    'BG': 'Bagmati Province',
-    'GD': 'Gandaki Province',
-    'KL': 'Karnali Province',
-    'LMB': 'Lumbini Province',
-    'MD': 'Madhesh Province',
-    'PN': 'Province No. 1',
-    'SP': 'Sudurpashchim Province'
+    'Bagmati Province': 'Bagmati Province',
+    'Gandaki Province': 'Gandaki Province',
+    'Karnali Province': 'Karnali Province',
+    'Lumbini Province': 'Lumbini Province',
+    'Madhesh Province': 'Madhesh Province',
+    'Province No. 1': 'Province No. 1',
+    'Sudurpashchim Province': 'Sudurpashchim Province'
 }

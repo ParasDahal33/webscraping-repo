@@ -7,5 +7,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('<int:listing_id>', views.detail, name='detail'),
     path('search', views.search, name='search'),
-    #path('advanceSearch', views.advanceSearch, name='advanceSearch'),
+    path('advanceSearch', views.advanceSearch, name='advanceSearch'),
 ]

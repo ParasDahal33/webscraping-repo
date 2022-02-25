@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Listings, Photos
@@ -82,14 +83,14 @@ def search(request):
         purchaseType = request.GET['purchaseType']
         if purchaseType:
             queryset_list = queryset_list.filter(
-                purchase__list=purchaseType)
+                purchaseType__iexact=purchaseType)
 
      # PropertyType
     if 'propertyType' in request.GET:
         propertyType = request.GET['propertyType']
         if propertyType:
             queryset_list = queryset_list.filter(
-                property__list=propertyType)
+                propertyType__iexact=propertyType)
     # Price
     if 'price' in request.GET:
         price = request.GET['price']
@@ -104,3 +105,13 @@ def search(request):
                'price_choices': price_choices,
                }
     return render(request, template, context)
+
+
+def advanceSearch(request):
+    title = 'Advance Search'
+    template_name = 'listing/advanceSearch.html'
+
+    context = {
+        'title': title
+    }
+    return render(request, template_name, context)
