@@ -25,11 +25,11 @@ class Listings(models.Model):
     purchaseType = models.CharField(unique=True,
                                     default="Buy", max_length=8, verbose_name='PurchaseType')
     propertyType = models.CharField(unique=True,
-                                    default="House", max_length=8, verbose_name='PropertyType')
+                                    default="House", max_length=15, verbose_name='PropertyType')
     bedroom = models.IntegerField(
         verbose_name='Bedroom', default=None, blank=True, null=True)
-    bathroom = models.DecimalField(
-        verbose_name='Bathroom', max_digits=8, decimal_places=5, default=None, blank=True, null=True)
+    bathroom = models.IntegerField(
+        verbose_name='Bathroom', default=None, blank=True, null=True)
     garage = models.IntegerField(
         verbose_name='Garage', default=None, blank=True, null=True)
     sqft = models.IntegerField(
