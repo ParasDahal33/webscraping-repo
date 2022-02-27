@@ -4,4 +4,37 @@
 <!---->
 {% load humanize %}
 <!---->
-{% block content %} {% endblock %}
+{% block content %}
+<section class="showcase-search text-zinc-900 py-5">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12">
+        <form method="GET">
+          <!-- Form Row 1 -->
+          <div class="form-row">
+            <div class="col-md-4 mb-3">
+              <div class="input-group">
+                <div class="form-outline">
+                  <label class="sr-only">Search</label>
+                  <input
+                    type="text"
+                    name="property"
+                    class="form-control"
+                    placeholder="Keyword (Land, Appartment,House etc)"
+                  />
+                  <input
+                    type="submit"
+                    class="btn btn-primary"
+                    value="Property Search"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -55,3 +55,22 @@ class Photos(models.Model):
     class Meta():
         verbose_name = 'Photo'
         verbose_name_plural = 'Photos'
+
+
+class Scraper(models.Model):
+    scrapertitle = models.CharField(
+        max_length=255,
+        verbose_name='ScraperTitle',
+    )
+    scraper_location = models.CharField(
+        max_length=100,
+        verbose_name='ScraperLocation',
+    )
+    scraper_price = models.CharField(
+        max_length=100,
+        verbose_name='ScraperPrice',
+    )
+
+    class Meta():
+        verbose_name = 'Scraper'
+        verbose_name_plural = 'Scrapers'

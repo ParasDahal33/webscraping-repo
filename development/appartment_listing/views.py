@@ -1,3 +1,4 @@
+from cgitb import text
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -107,9 +108,32 @@ def search(request):
     return render(request, template, context)
 
 
+def get_html_content(property):
+    import requests
+    USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+    LANGUAGE = "en-US,en;q=0.5"
+    session = requests.Session()
+    session.headers['User-Agent'] = USER_AGENT
+    session.headers['Accept-Language'] = LANGUAGE
+    session.headers['Content-Language'] = LANGUAGE
+    property = property.replace('', '+')
+    html_content = session.get(
+        f'https://www.realestateinnepal.com/search/?location={property}').content
+    return html_content
+
+
 def advanceSearch(request):
     title = 'Advance Search'
     template_name = 'listing/advanceSearch.html'
+
+    if 'property' in request.GET:
+        property = request.GET.get('property')
+        html_content = get_html_content(property)
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(html_content, 'html.parser')
+        region = soup.find(
+            'div', attrs={'class': 'row clearfix'})
+        print(region.text)
 
     context = {
         'title': title
