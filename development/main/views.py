@@ -5,7 +5,7 @@ from appartment_listing.choices import bedroom_choices, price_choices, state_cho
 
 
 def index(request):
-    title = 'Real Estate | Welcome'
+    title = 'Real Estate Hunt Nepal | Welcome'
     template = 'main/index.html'
 
     # Order & Filter the context for the listing page.
@@ -26,7 +26,7 @@ def index(request):
 
 
 def about(request):
-    title = 'Real Estate | About'
+    title = 'Real Estate Hunt Nepal | About'
     template = 'main/about.html'
     mvp = Realtors.objects.all().filter(is_mvp=True)
     realtors = Realtors.objects.all().order_by('-hire_date')

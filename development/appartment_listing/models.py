@@ -58,6 +58,10 @@ class Photos(models.Model):
 
 
 class Scraper(models.Model):
+    scraper_id = models.AutoField(
+        verbose_name='ID',
+        primary_key=True,
+    )
     scrapertitle = models.CharField(
         max_length=255,
         verbose_name='ScraperTitle',

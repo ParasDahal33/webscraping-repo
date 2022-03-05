@@ -1,16 +1,19 @@
+import csv
+import io
 from cgitb import text
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from .models import Listings, Photos
+from .models import Listings, Photos, Scraper
 from .choices import bedroom_choices, price_choices, state_choices, purchase_choices, property_choices
 from contact.forms import InquiryModelForm
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
 # Create your views here.
 
 
 def index(request):
-    title = 'Real Estate | Listing'
+    title = 'Real Estate Hunt Nepal | Listing'
     template = 'listing/index.html'
 
     # Order & Filter the context for the listing page.
@@ -139,3 +142,24 @@ def advanceSearch(request):
         'title': title
     }
     return render(request, template_name, context)
+
+
+@permission_required('sdmin.can_add_log_entry')
+def csv_upload(request):
+    template = 'listing/uploadCsv.html'
+    if request.method == "GET":
+        return render(request, template)
+    csv_file = request.FILES['file']
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, 'This is not a csv file')
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=','):
+        _, created = Scraper.objects.update_or_create(
+            scrapertitle=column[0],
+            scraper_location=column[1],
+            scraper_price=column[2]
+        )
+    context = {}
+    return render(request, template, context)

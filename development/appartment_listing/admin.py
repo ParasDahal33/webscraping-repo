@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Listings, Photos
+from .models import Listings, Photos, Scraper
 
 # Register your models here.
 
@@ -28,3 +28,17 @@ class ListingsAdmin(admin.ModelAdmin):
 
 # Register
 admin.site.register(Listings, ListingsAdmin)
+
+
+class ScraperAdmin(admin.ModelAdmin):
+    list_display = ('scraper_id', 'scrapertitle',
+                    'scraper_price')
+    list_display_links = ('scraper_id', 'scrapertitle')
+    list_per_page = 25
+
+    def scraper_price(self, obj):
+        return '{0:,.0f} Rs'.format(obj.price)
+
+
+# Register
+admin.site.register(Scraper, ScraperAdmin)
