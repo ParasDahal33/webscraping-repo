@@ -128,18 +128,15 @@ def get_html_content(property):
 def advanceSearch(request):
     title = 'Advance Search'
     template_name = 'listing/advanceSearch.html'
+    scraper = Scraper.objects.all()
 
-    if 'property' in request.GET:
-        property = request.GET.get('property')
-        html_content = get_html_content(property)
-        from bs4 import BeautifulSoup
-        soup = BeautifulSoup(html_content, 'html.parser')
-        region = soup.find(
-            'div', attrs={'class': 'row clearfix'})
-        print(region.text)
+    paginator = Paginator(scraper, 50)
+    page = request.GET.get('page')
+    paged_listings = paginator.get_page(page)
 
     context = {
-        'title': title
+        'title': title,
+        'scraper': paged_listings,
     }
     return render(request, template_name, context)
 

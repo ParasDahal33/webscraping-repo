@@ -78,3 +78,6 @@ class Scraper(models.Model):
     class Meta():
         verbose_name = 'Scraper'
         verbose_name_plural = 'Scrapers'
+
+    def __str__(self):
+        return self.scrapertitle

@@ -9,30 +9,46 @@
   <div class="container">
     <div class="row text-center">
       <div class="col-md-12">
-        <form method="GET">
-          <!-- Form Row 1 -->
-          <div class="form-row">
-            <div class="col-md-4 mb-3">
-              <div class="input-group">
-                <div class="form-outline">
-                  <label class="sr-only">Search</label>
-                  <input
-                    type="text"
-                    name="property"
-                    class="form-control"
-                    placeholder="Keyword (Land, Appartment,House etc)"
+        <section id="listings" class="py-4">
+          <div class="container">
+            <div class="row">
+              {% if scraper %} {% for scr in scraper %}
+              <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card">
+                  <img
+                    class="card-img-top"
+                    height="200"
+                    src="#"
+                    alt="Scraped Data"
                   />
-                  <input
-                    type="submit"
-                    class="btn btn-primary"
-                    value="Property Search"
-                  />
+                  <div class="card-img-overlay">
+                    <h2>
+                      <span class="badge badge-secondary text-white"
+                        >Rs{{scr.scraper_price}}</span
+                      >
+                    </h2>
+                  </div>
+                  <div class="card-body">
+                    <div class="listing-heading text-center">
+                      <h4 class="text-primary">{{scr.scrapertitle}}</h4>
+                      <p>
+                        <i class="fas fa-map-marker text-secondary"></i>
+                        {{scr.scraper_location}}
+                      </p>
+                    </div>
+                    <hr />
+                  </div>
                 </div>
+                <a href="#" class="btn btn-primary btn-block">More Info</a>
               </div>
+              {% endfor %} {% else %}
+              <div class="col-md-12">
+                <p>There are no listings</p>
+              </div>
+              {% endif %}
             </div>
           </div>
-        </form>
-        
+        </section>
       </div>
     </div>
   </div>

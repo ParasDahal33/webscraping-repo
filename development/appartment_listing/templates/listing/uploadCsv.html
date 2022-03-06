@@ -1,3 +1,11 @@
+{% extends 'header/base.html' %}
+<!---->
+{% load static %}
+<!---->
+{% load humanize %}
+<!---->
+{% block content %}
+
 {% if messages %}
     {% for message in messages %}
         <div>
@@ -6,11 +14,21 @@
     {% endfor %}
 {% else %} 
 {{order}}
-<form method="post" enctype="multipart/form-data">
+<div class="w-full max-w-sm pt-2 pl-8 pb-24">
+<form method="post" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     {%  csrf_token %}
-    <label>Upload a file</label>
-    <input type="file" name="file"> </input>
-    <p>Only Accepts CSV files </p>
-    <button type="submit"> Upload</button>
+    <div class="mb-4">
+    <label for="formFileLg" class="block text-gray-700 text-sm font-bold mb-2">Upload a file</label>
+    </div>
+    <div class="mb-4">
+    <input type="file" class="form-control" id="customFile" name="file"> </input>
+    </div>
+    <div class="mb-6">
+    <p class="block text-gray-700 text-sm font-bold mb-2">Only Accepts CSV files </p>
+    </div>
+    <button type="submit" class="bg-teal-600 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> Upload</button>
+    
 </form>
+</div>
 {% endif %}
+{% endblock %}
