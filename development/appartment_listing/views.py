@@ -141,7 +141,7 @@ def advanceSearch(request):
     return render(request, template_name, context)
 
 
-@permission_required('sdmin.can_add_log_entry')
+@permission_required('admin.can_add_log_entry')
 def csv_upload(request):
     template = 'listing/uploadCsv.html'
     if request.method == "GET":
