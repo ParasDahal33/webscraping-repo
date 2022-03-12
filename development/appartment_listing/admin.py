@@ -10,7 +10,7 @@ class PhotoInLine(admin.TabularInline):
 
 class ListingsAdmin(admin.ModelAdmin):
     list_display = ('listing_id', 'listing_title',
-                    'is_published', 'formatted_price', 'list_date', 'realtor_id')
+                    'is_published', 'formatted_price', 'list_date', 'purchaseType', 'propertyType', 'realtor_id')
 
     list_display_links = ('listing_id', 'listing_title')
     list_filter = ('realtor_id',)

@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import re
 from csv import writer
 
 headers = {
@@ -12,7 +13,7 @@ lists = soup.find_all('div', class_="shadow border-bottom border-primary mb-4")
 
 with open('realestateInNepal.csv', 'w', encoding='utf8', newline='') as f:
     thewriter = writer(f)
-    header = ['Title', 'Location', 'Price']
+    header = ['Title', 'Location', 'Price', 'Image']
     thewriter.writerow(header)
 
     for list in lists:
@@ -20,8 +21,10 @@ with open('realestateInNepal.csv', 'w', encoding='utf8', newline='') as f:
             'a', class_="text-white").text.replace('\n', '')
         location = list.find(
             'span', class_="locationko text-white").text.split()[-1].replace('\n', '')
-        price = list.find(
+        priceOne = list.find(
             'div', class_="bg-white p-3").text.split()[+9].replace('\n', '')
-
-        info = [title, location, price]
+        image = list.find(
+            'img')['src']
+        price = re.sub('[^0-9]', '', priceOne)
+        info = [title, location, price, image]
         thewriter.writerow(info)

@@ -22,10 +22,10 @@ class Listings(models.Model):
     description = models.TextField(blank=True, verbose_name='Description')
     price = models.DecimalField(
         verbose_name='Price', max_digits=15, decimal_places=5)
-    purchaseType = models.CharField(unique=True,
-                                    default="Buy", max_length=8, verbose_name='PurchaseType')
-    propertyType = models.CharField(unique=True,
-                                    default="House", max_length=15, verbose_name='PropertyType')
+    purchaseType = models.CharField(
+        max_length=8, default='Buy', verbose_name='PurchaseType')
+    propertyType = models.CharField(
+        max_length=15, default='House', verbose_name='PropertyType')
     bedroom = models.IntegerField(
         verbose_name='Bedroom', default=None, blank=True, null=True)
     bathroom = models.IntegerField(
@@ -73,6 +73,11 @@ class Scraper(models.Model):
     scraper_price = models.CharField(
         max_length=100,
         verbose_name='ScraperPrice',
+    )
+
+    scraper_image = models.CharField(
+        max_length=200,
+        verbose_name='ScraperImage', default=None, blank=True, null=True
     )
 
     class Meta():

@@ -141,6 +141,40 @@ def advanceSearch(request):
     return render(request, template_name, context)
 
 
+def scraperSearch(request):
+    title = 'Scraped Search Result'
+    template = 'listing/scraperSearch.html'
+
+    scraper = Scraper.objects.all()
+
+    paginator = Paginator(scraper, 50)
+    page = request.GET.get('page')
+    paged_listings = paginator.get_page(page)
+    # Keywords
+    if 'keywords' in request.GET:
+        keywords = request.GET['keywords']
+        if keywords:
+            scraper = scraper.filter(
+                scrapertitle__icontains=keywords)
+    # Location
+    if 'scraper_location' in request.GET:
+        scraper_location = request.GET['scraper_location']
+        if scraper_location:
+            scraper = scraper.filter(
+                scraper_location__iexact=scraper_location)
+    # Price
+    if 'price' in request.GET:
+        price = request.GET['price']
+        if price:
+            scraper = scraper.filter(
+                scraper_price__lte=price)
+    context = {'title': title,
+               'scraper': paged_listings,
+               'price_choices': price_choices,
+               }
+    return render(request, template, context)
+
+
 @permission_required('admin.can_add_log_entry')
 def csv_upload(request):
     template = 'listing/uploadCsv.html'
@@ -156,7 +190,8 @@ def csv_upload(request):
         _, created = Scraper.objects.update_or_create(
             scrapertitle=column[0],
             scraper_location=column[1],
-            scraper_price=column[2]
+            scraper_price=column[2],
+            scraper_image=column[3]
         )
     context = {}
     return render(request, template, context)
