@@ -111,6 +111,18 @@ def search(request):
     return render(request, template, context)
 
 
+def scraperDetail(request, scraper_id):
+    title = 'Scraper | Details'
+    template_name = 'listing/scraperDetails.html'
+    scraperDetail = get_object_or_404(Scraper, pk=scraper_id)
+
+    context = {
+        'title': title,
+        'details': scraperDetail,
+    }
+    return render(request, template_name, context)
+
+
 def get_html_content(property):
     import requests
     USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"

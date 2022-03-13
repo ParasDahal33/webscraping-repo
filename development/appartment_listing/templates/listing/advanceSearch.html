@@ -88,7 +88,11 @@
                     <hr />
                   </div>
                 </div>
-                <a href="#" class="btn btn-primary btn-block">More Info</a>
+                <a
+                  href="{% url 'listing:scraperDetail' scr.scraper_id %}"
+                  class="btn btn-primary btn-block"
+                  >More Info</a
+                >
               </div>
               {% endfor %} {% else %}
               <div class="col-md-12">
