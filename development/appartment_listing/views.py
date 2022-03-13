@@ -128,51 +128,31 @@ def get_html_content(property):
 def advanceSearch(request):
     title = 'Advance Search'
     template_name = 'listing/advanceSearch.html'
-    scraper = Scraper.objects.all()
-
-    paginator = Paginator(scraper, 50)
-    page = request.GET.get('page')
-    paged_listings = paginator.get_page(page)
-
-    context = {
-        'title': title,
-        'scraper': paged_listings,
-    }
-    return render(request, template_name, context)
-
-
-def scraperSearch(request):
-    title = 'Scraped Search Result'
-    template = 'listing/scraperSearch.html'
-
-    scraper = Scraper.objects.all()
-
-    paginator = Paginator(scraper, 50)
-    page = request.GET.get('page')
-    paged_listings = paginator.get_page(page)
-    # Keywords
+    scraper = Scraper.objects.all().order_by('scrapertitle')
     if 'keywords' in request.GET:
         keywords = request.GET['keywords']
         if keywords:
             scraper = scraper.filter(
                 scrapertitle__icontains=keywords)
-    # Location
-    if 'scraper_location' in request.GET:
-        scraper_location = request.GET['scraper_location']
-        if scraper_location:
+    # City
+    if 'location' in request.GET:
+        location = request.GET['location']
+        if location:
             scraper = scraper.filter(
-                scraper_location__iexact=scraper_location)
+                scraper_location__iexact=location)
     # Price
     if 'price' in request.GET:
         price = request.GET['price']
         if price:
             scraper = scraper.filter(
                 scraper_price__lte=price)
-    context = {'title': title,
-               'scraper': paged_listings,
-               'price_choices': price_choices,
-               }
-    return render(request, template, context)
+
+    context = {
+        'title': title,
+        'scraper': scraper,
+        'price_choices': price_choices
+    }
+    return render(request, template_name, context)
 
 
 @permission_required('admin.can_add_log_entry')

@@ -5,6 +5,55 @@
 {% load humanize %}
 <!---->
 {% block content %}
+<section id="showcase-inner" class="showcase-search text-white py-5">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12">
+        <form action="{% url 'listing:advanceSearch' %}">
+          <!-- Form Row 1 -->
+          <div class="form-row">
+            <div class="col-md-4 mb-3">
+              <label class="sr-only">Keywords</label>
+              <input
+                type="text"
+                name="keywords"
+                class="form-control"
+                placeholder="Keyword (Land, Appartment,House etc)"
+              />
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label class="sr-only">Location</label>
+              <input
+                type="text"
+                name="location"
+                class="form-control"
+                placeholder="City"
+              />
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="sr-only">Price</label>
+              <select name="price" class="form-control">
+                <option selected="true" disabled="disabled">
+                  Max Price (Any)
+                </option>
+                {% for key, value in price_choices.items %}
+                <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <button class="btn btn-secondary btn-block mt-4" type="submit">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="showcase-search text-zinc-900 py-5">
   <div class="container">
     <div class="row text-center">
