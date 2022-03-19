@@ -8,6 +8,9 @@ from .models import Listings, Photos, Scraper
 from .choices import bedroom_choices, price_choices, state_choices, purchase_choices, property_choices
 from contact.forms import InquiryModelForm
 from django.contrib import messages
+from bs4 import BeautifulSoup
+import requests
+import re
 from django.contrib.auth.decorators import permission_required
 # Create your views here.
 
@@ -111,32 +114,6 @@ def search(request):
     return render(request, template, context)
 
 
-def scraperDetail(request, scraper_id):
-    title = 'Scraper | Details'
-    template_name = 'listing/scraperDetails.html'
-    scraperDetail = get_object_or_404(Scraper, pk=scraper_id)
-
-    context = {
-        'title': title,
-        'details': scraperDetail,
-    }
-    return render(request, template_name, context)
-
-
-def get_html_content(property):
-    import requests
-    USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
-    LANGUAGE = "en-US,en;q=0.5"
-    session = requests.Session()
-    session.headers['User-Agent'] = USER_AGENT
-    session.headers['Accept-Language'] = LANGUAGE
-    session.headers['Content-Language'] = LANGUAGE
-    property = property.replace('', '+')
-    html_content = session.get(
-        f'https://www.realestateinnepal.com/search/?location={property}').content
-    return html_content
-
-
 def advanceSearch(request):
     title = 'Advance Search'
     template_name = 'listing/advanceSearch.html'
@@ -167,23 +144,44 @@ def advanceSearch(request):
     return render(request, template_name, context)
 
 
+def scraperDetail(request, scraper_id):
+    title = 'Scraper | Details'
+    template_name = 'listing/scraperDetails.html'
+    scraperDetail = get_object_or_404(Scraper, pk=scraper_id)
+
+    context = {
+        'title': title,
+        'details': scraperDetail,
+    }
+    return render(request, template_name, context)
+
+
 @permission_required('admin.can_add_log_entry')
 def csv_upload(request):
     template = 'listing/uploadCsv.html'
-    if request.method == "GET":
-        return render(request, template)
-    csv_file = request.FILES['file']
-    if not csv_file.name.endswith('.csv'):
-        messages.error(request, 'This is not a csv file')
-    data_set = csv_file.read().decode('UTF-8')
-    io_string = io.StringIO(data_set)
-    next(io_string)
-    for column in csv.reader(io_string, delimiter=','):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
+    r = requests.get(
+        'https://www.realestateinnepal.com/search/?location=', headers=headers)
+
+    soup = BeautifulSoup(r.content, 'html.parser')
+    lists = soup.find_all(
+        'div', class_="shadow border-bottom border-primary mb-4")
+    for list in lists:
+        title = list.find(
+            'a', class_="text-white").text.replace('\n', '')
+        location = list.find(
+            'span', class_="locationko text-white").text.split()[-1].replace('\n', '')
+        priceOne = list.find(
+            'div', class_="bg-white p-3").text.split()[+9].replace('\n', '')
+        image = list.find(
+            'img')['src']
+        price = re.sub('[^0-9]', '', priceOne)
         _, created = Scraper.objects.update_or_create(
-            scrapertitle=column[0],
-            scraper_location=column[1],
-            scraper_price=column[2],
-            scraper_image=column[3]
+            scrapertitle=title,
+            scraper_location=location,
+            scraper_price=price,
+            scraper_image=image
         )
     context = {}
     return render(request, template, context)

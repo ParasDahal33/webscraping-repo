@@ -61,6 +61,7 @@ class Scraper(models.Model):
     scraper_id = models.AutoField(
         verbose_name='ID',
         primary_key=True,
+        unique=True
     )
     scrapertitle = models.CharField(
         max_length=255,
@@ -77,7 +78,8 @@ class Scraper(models.Model):
 
     scraper_image = models.CharField(
         max_length=200,
-        verbose_name='ScraperImage', default=None, blank=True, null=True
+        verbose_name='ScraperImage', default=None, blank=True, null=True,
+        unique=True
     )
 
     class Meta():
