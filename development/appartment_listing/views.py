@@ -147,11 +147,10 @@ def advanceSearch(request):
 def scraperDetail(request, scraper_id):
     title = 'Scraper | Details'
     template_name = 'listing/scraperDetails.html'
-    scraperDetail = get_object_or_404(Scraper, pk=scraper_id)
-
+    obj = get_object_or_404(Scraper, pk=scraper_id)
     context = {
         'title': title,
-        'details': scraperDetail,
+        'obj': obj
     }
     return render(request, template_name, context)
 
@@ -159,29 +158,31 @@ def scraperDetail(request, scraper_id):
 @permission_required('admin.can_add_log_entry')
 def csv_upload(request):
     template = 'listing/uploadCsv.html'
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
-    r = requests.get(
-        'https://www.realestateinnepal.com/search/?location=', headers=headers)
 
-    soup = BeautifulSoup(r.content, 'html.parser')
-    lists = soup.find_all(
-        'div', class_="shadow border-bottom border-primary mb-4")
-    for list in lists:
-        title = list.find(
-            'a', class_="text-white").text.replace('\n', '')
-        location = list.find(
-            'span', class_="locationko text-white").text.split()[-1].replace('\n', '')
-        priceOne = list.find(
-            'div', class_="bg-white p-3").text.split()[+9].replace('\n', '')
-        image = list.find(
-            'img')['src']
-        price = re.sub('[^0-9]', '', priceOne)
-        _, created = Scraper.objects.update_or_create(
-            scrapertitle=title,
-            scraper_location=location,
-            scraper_price=price,
-            scraper_image=image
-        )
+    if request.method == 'POST':
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
+        r = requests.get(
+            'https://www.realestateinnepal.com/search/?location=', headers=headers)
+        soup = BeautifulSoup(r.content, 'html.parser')
+        lists = soup.find_all(
+            'div', class_="shadow border-bottom border-primary mb-4")
+        for list in lists:
+            title = list.find(
+                'a', class_="text-white").text.replace('\n', '')
+            location = list.find(
+                'span', class_="locationko text-white").text.split()[-1].replace('\n', '')
+            priceOne = list.find(
+                'div', class_="bg-white p-3").text.split()[+9].replace('\n', '')
+            image = list.find(
+                'img')['src']
+            price = re.sub('[^0-9]', '', priceOne)
+            _, created = Scraper.objects.update_or_create(
+                scrapertitle=title,
+                scraper_location=location,
+                scraper_price=price,
+                scraper_image=image
+            )
+
     context = {}
     return render(request, template, context)

@@ -66,6 +66,7 @@ class Scraper(models.Model):
     scrapertitle = models.CharField(
         max_length=255,
         verbose_name='ScraperTitle',
+        unique=True
     )
     scraper_location = models.CharField(
         max_length=100,
