@@ -9,6 +9,7 @@ from .choices import bedroom_choices, price_choices, state_choices, purchase_cho
 from contact.forms import InquiryModelForm
 from django.contrib import messages
 from bs4 import BeautifulSoup
+from celery import shared_task
 import requests
 import re
 from django.contrib.auth.decorators import permission_required
@@ -156,6 +157,7 @@ def scraperDetail(request, scraper_id):
 
 
 @permission_required('admin.can_add_log_entry')
+@shared_task
 def csv_upload(request):
     template = 'listing/uploadCsv.html'
 

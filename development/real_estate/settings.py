@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'realtor',
     'account',
     'contact',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
