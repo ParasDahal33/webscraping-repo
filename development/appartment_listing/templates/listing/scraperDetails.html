@@ -63,7 +63,39 @@
         </div>
       </div>
     </div>
+    <button
+      class="btn-primary btn-block btn-lg"
+      data-toggle="modal"
+      data-target="#inquiryModal"
+    >
+      Make An Inquiry
+    </button>
   </div>
 </section>
 
+<div class="modal fade" id="inquiryModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="inquiryModalLabel">Make An Inquiry</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% if inquiry_form %}
+        <form action="{% url 'contact:contact' %}" method="POST">
+          {% csrf_token %} {{inquiry_form}}
+          <hr />
+          <input
+            type="submit"
+            value="Send"
+            class="btn btn-block btn-secondary"
+          />
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

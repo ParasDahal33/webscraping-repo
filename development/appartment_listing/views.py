@@ -149,9 +149,24 @@ def scraperDetail(request, scraper_id):
     title = 'Scraper | Details'
     template_name = 'listing/scraperDetails.html'
     obj = get_object_or_404(Scraper, pk=scraper_id)
+    if request.user.is_active:
+        inquiry_form = InquiryModelForm(initial={
+            'listing_id': scraper_id,
+            'listing_title': getattr(obj, 'scrapertitle'),
+            'contact_name': request.user.first_name + ' ' + request.user.last_name,
+            'contact_mail': request.user.email,
+            'user_id': request.user.id,
+        })
+
+    if request.user.is_anonymous:
+        inquiry_form = InquiryModelForm(initial={
+            'listing_id': scraper_id,
+            'listing_title': getattr(obj, 'scrapertitle'),
+        })
     context = {
         'title': title,
-        'obj': obj
+        'obj': obj,
+        'inquiry_form': inquiry_form,
     }
     return render(request, template_name, context)
 

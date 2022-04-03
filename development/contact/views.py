@@ -15,12 +15,12 @@ def contactView(request):
                 if has_contacted:
                     messages.warning(
                         request, 'You have already made an inquiry for this Listing')
-                    return redirect('/listing/' + str(form.cleaned_data.get('listing_id')))
+                    return redirect('/listing/advanceSearch/' + str(form.cleaned_data.get('listing_id')))
             form.save()
             messages.success(
-                request, 'Your request has been submitted, a realtor will get back to you soon')
-            return redirect('/listing/' + str(form.cleaned_data.get('listing_id')))
+                request, 'Your request has been submitted, we will notify you very soon')
+            return redirect('/listing/advanceSearch/' + str(form.cleaned_data.get('listing_id')))
         else:
             messages.error(request, 'Your request cannot be submitted')
-            return redirect('/listing/' + str(form.cleaned_data.get('listing_id')))
-    return redirect('/listing/')
+            return redirect('/listing/advanceSearch/' + str(form.cleaned_data.get('listing_id')))
+    return redirect('/listing/advanceSearch/')
