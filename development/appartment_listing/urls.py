@@ -11,4 +11,5 @@ urlpatterns = [
          views.scraperDetail, name='scraperDetail'),
     path('advanceSearch', views.advanceSearch, name='advanceSearch'),
     path('upload-csv', views.csv_upload, name='csv_upload'),
+    path('send-mail', views.notify, name='notify'),
 ]

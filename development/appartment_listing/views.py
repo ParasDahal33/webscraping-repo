@@ -1,5 +1,4 @@
-import csv
-import io
+
 from cgitb import text
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
@@ -10,6 +9,7 @@ from contact.forms import InquiryModelForm
 from django.contrib import messages
 from bs4 import BeautifulSoup
 from celery import shared_task
+from django.core.mail import send_mail
 import requests
 import re
 from django.contrib.auth.decorators import permission_required
@@ -201,5 +201,18 @@ def csv_upload(request):
                 scraper_image=image
             )
 
+    context = {}
+    return render(request, template, context)
+
+
+@shared_task
+def notify(request):
+    template = 'listing/uploadCsv.html'
+    send_mail(
+        'Real Estate Hunt Nepal Notification',
+        'You will be notified if the price of the selected .',
+        'REAL ESTATE HUNT NEPAL',
+        ['paras.dahal2016@gmail.com']
+    )
     context = {}
     return render(request, template, context)
