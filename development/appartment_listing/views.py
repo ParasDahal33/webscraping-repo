@@ -1,9 +1,11 @@
 
+from ast import For
 from cgitb import text
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Listings, Photos, Scraper
+from contact.models import Contact
 from .choices import bedroom_choices, price_choices, state_choices, purchase_choices, property_choices
 from contact.forms import InquiryModelForm
 from django.contrib import messages
@@ -182,6 +184,17 @@ def csv_upload(request):
         r = requests.get(
             'https://www.realestateinnepal.com/search/?location=', headers=headers)
         soup = BeautifulSoup(r.content, 'html.parser')
+        con = get_object_or_404(Contact)
+        subject = 'Real Estate Hunt Nepal Notification'
+        message = 'The price of the properties on Advance have been updated. Please check out our latest prices. '
+        from_email = 'REAL ESTATE HUNT NEPAL'
+        to_email = con.contact_mail
+        send_mail(
+            subject,
+            message,
+            from_email,
+            [to_email]
+        )
         lists = soup.find_all(
             'div', class_="shadow border-bottom border-primary mb-4")
         for list in lists:
@@ -208,11 +221,18 @@ def csv_upload(request):
 @shared_task
 def notify(request):
     template = 'listing/uploadCsv.html'
+    con = get_object_or_404(Contact)
+    subject = 'Real Estate Hunt Nepal Notification'
+    message = 'Your submission on the property of message('+con.contact_message + \
+        ') has been submitted sucessfully. You will be notified about this property.'
+    from_email = 'REAL ESTATE HUNT NEPAL'
+    to_email = con.contact_mail
     send_mail(
-        'Real Estate Hunt Nepal Notification',
-        'You will be notified if the price of the selected .',
-        'REAL ESTATE HUNT NEPAL',
-        ['paras.dahal2016@gmail.com']
+        subject,
+        message,
+        from_email,
+        [to_email]
     )
+
     context = {}
     return render(request, template, context)
