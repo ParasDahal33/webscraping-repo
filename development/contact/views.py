@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Contact
 from .forms import InquiryModelForm
+from django.contrib.auth.decorators import permission_required
 
 
+@permission_required('admin.can_add_log_entry')
 def contactView(request):
     if request.method == 'POST':
         form = InquiryModelForm(request.POST)
